@@ -4,7 +4,7 @@ import Link from "next/link";
 import { Mail, Lock, Eye, EyeOff, Brain } from 'lucide-react';
 import { toast } from 'react-toastify';
 import { ClipLoader } from "react-spinners";
-import { submitLogin } from "./actions";
+import { login } from "./actions";
 
 export default function page() {
     const [showPassword, setShowPassword] = useState(false);
@@ -18,8 +18,7 @@ export default function page() {
             password : e.target.password.value
         }
 
-
-        const response = await submitLogin(data);
+        const response = await login(data);
         console.log(response);
         if(response.success && response.token){
             setIsLoading(false);

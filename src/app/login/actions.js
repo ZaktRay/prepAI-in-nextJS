@@ -3,7 +3,7 @@ import { connectDB } from "@/lib/db"
 import User from "@/models/user.model";
 import { createToken } from "@/lib/jwt";
 
-export async function submitLogin(data) {
+export async function login(data) {
   await connectDB();
   try {
     const { email, password } = data;
