@@ -17,7 +17,12 @@ export default function page() {
             password : e.target.password.value
         }
 
-        await submitLogin(data)
+        const response = await submitLogin(data);
+        console.log(response)
+        if(response.success == 'true' && response.token){
+            console.log(response)
+        }
+        
     }
 
     return (
