@@ -10,6 +10,16 @@ export default function page() {
     const [showPassword, setShowPassword] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
 
+    const handleSubmit = async (e)=>{
+        e.preventDefault();
+        const data = {
+            email : e.target.email.value,
+            password : e.target.password.value
+        }
+
+        await submitLogin(data)
+    }
+
     return (
         <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 flex items-center justify-center p-4">
             <div className="w-full max-w-md">
@@ -28,7 +38,7 @@ export default function page() {
 
 
                 <div className="bg-white/70 backdrop-blur-sm rounded-3xl shadow-xl border border-white/20 p-8">
-                    <form action={submitLogin} className="space-y-6">
+                    <form onSubmit={handleSubmit} className="space-y-6">
 
                         <div>
                             <label htmlFor="email" className="block text-sm font-semibold text-gray-700 mb-2">
