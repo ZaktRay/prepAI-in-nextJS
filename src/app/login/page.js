@@ -12,15 +12,23 @@ export default function page() {
 
     const handleSubmit = async (e)=>{
         e.preventDefault();
+        setIsLoading(true);
         const data = {
             email : e.target.email.value,
             password : e.target.password.value
         }
 
+
         const response = await submitLogin(data);
-        console.log(response)
-        if(response.success == 'true' && response.token){
-            console.log(response)
+        console.log(response);
+        if(response.success && response.token){
+            setIsLoading(false);
+            toast.success("Login Successful");
+            console.log(response);
+        }
+        else{
+            setIsLoading(false);
+            toast.error(response.message);
         }
         
     }
