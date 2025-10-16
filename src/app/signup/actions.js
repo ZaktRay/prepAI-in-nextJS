@@ -2,6 +2,7 @@
 import User from "@/models/user.model";
 import { connectDB } from "@/lib/db"
 import { createToken } from "@/lib/jwt";
+import {setCookie} from "@/lib/cookie";
 
 
 export async function signUp(data){
@@ -20,11 +21,13 @@ export async function signUp(data){
         }
 
         const user = await User.create({ name, email, username, password });
-
+        const token = createToken(user._id);
+        setCookie(token);
+        
         return {
             success: true,
             message: 'user successfully registered',
-            token: createToken(user._id)
+            token
         }
     } catch (err) {
         console.log(err);

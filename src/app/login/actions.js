@@ -2,6 +2,7 @@
 import { connectDB } from "@/lib/db"
 import User from "@/models/user.model";
 import { createToken } from "@/lib/jwt";
+import {setCookie} from "@/lib/cookie";
 
 export async function login(data) {
   await connectDB();
@@ -19,6 +20,7 @@ export async function login(data) {
     }
 
     const token = createToken(user._id);
+    await setCookie(token);
 
     return { success: true, message: "Login successful", token, status: 200 };
 

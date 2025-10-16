@@ -6,7 +6,7 @@ import { ClipLoader } from "react-spinners";
 import { toast } from 'react-toastify';
 import { signUp } from "./actions";
 
-export default function page() {
+export default function SignUp() {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 

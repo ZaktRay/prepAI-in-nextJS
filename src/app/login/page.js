@@ -1,14 +1,16 @@
 'use client'
 import { useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { Mail, Lock, Eye, EyeOff, Brain } from 'lucide-react';
 import { toast } from 'react-toastify';
 import { ClipLoader } from "react-spinners";
 import { login } from "./actions";
 
-export default function page() {
+export default function Login() {
     const [showPassword, setShowPassword] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
+    const router = useRouter();
 
     const handleSubmit = async (e)=>{
         e.preventDefault();
@@ -23,7 +25,7 @@ export default function page() {
         if(response.success && response.token){
             setIsLoading(false);
             toast.success("Login Successful");
-            console.log(response);
+            router.replace('/dashboard')
         }
         else{
             setIsLoading(false);
