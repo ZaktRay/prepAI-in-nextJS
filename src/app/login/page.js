@@ -25,7 +25,7 @@ export default function Login() {
         if(response.success && response.token){
             setIsLoading(false);
             toast.success("Login Successful");
-            router.replace('/dashboard')
+            router.replace('/dashboard');
         }
         else{
             setIsLoading(false);

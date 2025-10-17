@@ -19,8 +19,8 @@ export async function login(data) {
       return { success: false, message: "Invalid password", status: 400 };
     }
 
-    const token = createToken(user._id);
-    await setCookie(token);
+    const token = createToken(user);
+    setCookie(token);
 
     return { success: true, message: "Login successful", token, status: 200 };
 

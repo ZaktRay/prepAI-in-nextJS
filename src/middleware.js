@@ -1,23 +1,26 @@
 import { NextResponse } from "next/server";
-import { verifyToken } from "./lib/jwt"; // adjust the path
+import { verifyToken } from "./lib/jwt";
 
 export async function middleware(request) {
   const token = request.cookies.get("token")?.value;
   const pathname = request.nextUrl.pathname;
 
-  const protectedRoutes = ["/dashboard", "/settings", "/profile"];
-  const guestRoutes = ["/login", "/signup", "/"];
+  const protectedRoutes = ["/dashboard", "/upload", "/test"];
+  const guestRoutes = ["/login", "/signup",];
 
-  // Verify token (only if it exists)
-  const validUser = token ? verifyToken(token) : null;
+  const validUser = token ? verifyToken(token) : null
 
-  // Redirect unauthenticated users from protected routes
-  if (protectedRoutes.some((r) => pathname.startsWith(r)) && !validUser) {
-    return NextResponse.redirect(new URL("/login", request.url));
+  console.log("Middleware | Path:", pathname);
+  console.log("Middleware | Token:", token);
+  console.log("Middleware | Valid user:", validUser);
+  
+  if (protectedRoutes.some(route => pathname.startsWith(route)) && !validUser) {
+    const response = NextResponse.redirect(new URL("/login", request.url));
+    response.cookies.delete("token");
+    return response;
   }
 
-  // Redirect authenticated users away from guest routes
-  if (guestRoutes.includes(pathname) && validUser) {
+  if (guestRoutes.some(route => pathname.startsWith(route)) && validUser) {
     return NextResponse.redirect(new URL("/dashboard", request.url));
   }
 
@@ -25,12 +28,6 @@ export async function middleware(request) {
 }
 
 export const config = {
-  matcher: [
-    "/dashboard/:path*",
-    "/settings/:path*",
-    "/profile/:path*",
-    "/login",
-    "/signup",
-    "/",
-  ],
+  matcher: ["/dashboard", "/upload", "/test", "/login", "/signup", "/"],
+  runtime: "nodejs"
 };
