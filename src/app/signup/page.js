@@ -1,12 +1,14 @@
 'use client'
 import { useState } from "react"
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { Mail, Lock, User, Eye, EyeOff, Brain } from 'lucide-react';
 import { ClipLoader } from "react-spinners";
 import { toast } from 'react-toastify';
 import { signUp } from "./actions";
 
 export default function SignUp() {
+  const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -26,6 +28,7 @@ export default function SignUp() {
     if (response.success && response.token) {
       setIsLoading(false);
       toast.success("Registered Successfully");
+      router.replace("/dashboard");
       console.log(response);
     }
     else {
