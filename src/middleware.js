@@ -8,12 +8,8 @@ export async function middleware(request) {
   const protectedRoutes = ["/dashboard", "/upload", "/test"];
   const guestRoutes = ["/login", "/signup",];
 
-  const validUser = token ? verifyToken(token) : null
+  const validUser = token ? verifyToken(token) : null ;
 
-  console.log("Middleware | Path:", pathname);
-  console.log("Middleware | Token:", token);
-  console.log("Middleware | Valid user:", validUser);
-  
   if (protectedRoutes.some(route => pathname.startsWith(route)) && !validUser) {
     const response = NextResponse.redirect(new URL("/login", request.url));
     response.cookies.delete("token");

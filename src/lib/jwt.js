@@ -13,7 +13,6 @@ export const createToken = (user) => {
 export const verifyToken = (token)=> {
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    console.log("this is decoded",decoded)
     return decoded;
   } catch (err) {
     console.error("Token verification failed:", err.message);
