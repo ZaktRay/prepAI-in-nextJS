@@ -2,13 +2,29 @@ import { NextResponse } from "next/server";
 import { verifyToken } from "./lib/jwt";
 
 export async function middleware(request) {
+
   const token = request.cookies.get("token")?.value;
   const pathname = request.nextUrl.pathname;
+
+  // if (pathname.startsWith("/api/upload")) {
+
+  //   if (!token) {
+  //     return NextResponse.json(
+  //       { success: false, message: "Unauthorized" },
+  //       { status: 401 }
+  //     );
+  //   }
+
+  //   return NextResponse.next();
+
+  // }
+
+
 
   const protectedRoutes = ["/dashboard", "/upload", "/test"];
   const guestRoutes = ["/login", "/signup",];
 
-  const validUser = token ? verifyToken(token) : null ;
+  const validUser = token ? verifyToken(token) : null;
 
   if (protectedRoutes.some(route => pathname.startsWith(route)) && !validUser) {
     const response = NextResponse.redirect(new URL("/login", request.url));
