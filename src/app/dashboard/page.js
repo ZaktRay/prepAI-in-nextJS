@@ -2,6 +2,9 @@
 import { useEffect, useState } from 'react';
 import { User as UserIcon, Mail, Brain, FileText, TrendingUp, Calendar, BookOpen, Upload, Zap, Award, LogOut, Play } from 'lucide-react';
 import Link from 'next/link';
+import { deleteCookie } from '@/lib/cookie';
+import { useRouter } from "next/navigation";
+
 
 const Skeleton = ({ className = '' }) => (
   <div className={`animate-pulse bg-gray-200 rounded ${className}`}></div>
@@ -11,6 +14,7 @@ const Skeleton = ({ className = '' }) => (
 export default function Dashboard() {
   const [user, setUser] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  const router = useRouter();
 
   useEffect(() => {
     (async () => {
@@ -48,7 +52,9 @@ export default function Dashboard() {
     return 'text-rose-600';
   };
 
-  const logOut = () => {
+  const logOut = async () => {
+    await deleteCookie();
+    router.replace('/dashboard');
 
   }
 
