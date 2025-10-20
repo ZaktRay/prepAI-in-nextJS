@@ -25,7 +25,6 @@ export async function POST(request) {
             prompt = text;
         }
 
-        console.log(prompt);
         const questions = await generateResponse(prompt);
 
         return NextResponse.json({ success: true, questions }, { status: 200 });

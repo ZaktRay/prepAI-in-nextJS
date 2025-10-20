@@ -19,6 +19,7 @@ export default function Dashboard() {
   useEffect(() => {
     (async () => {
       try {
+        sessionStorage.clear();
         const response = await fetch('/api/user/profile');
         const data = await response.json();
         setIsLoading(false);

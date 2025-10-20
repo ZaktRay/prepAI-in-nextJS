@@ -4,7 +4,6 @@ import { Upload, FileText, Type, Brain, ArrowLeft, Plus } from 'lucide-react';
 import { useRouter } from "next/navigation";
 import { ClipLoader } from "react-spinners"
 
-
 export default function uploadFile() {
     const router = useRouter();
     const [inputMode, setInputMode] = useState('upload');
@@ -38,20 +37,25 @@ export default function uploadFile() {
 
     const handleSubmit = async () => {
         setIsLoading(true);
-        if (inputMode === 'upload' && selectedFile) {
-            formData.append('pdf', selectedFile);
-            try{
-                const res = await fetch("/api/upload", { method: "POST", body: formData });
-                const data = await res.json();
-                console.log(data);
-                setIsLoading(false);
+
+        try {
+            if (inputMode === 'upload' && selectedFile) {
+                formData.append('pdf', selectedFile);
             }
-             catch(err){
-                console.log(err);
-             }
-
-        } else if (inputMode === 'text' && textInput.trim()) {
-
+            else if (inputMode === 'text' && textInput.trim()) {
+                formData.append('text', textInput);
+            }
+            const res = await fetch("/api/upload", { method: "POST", body: formData });
+            const data = await res.json();
+            console.log(data);
+            setIsLoading(false);
+            sessionStorage.setItem('testData',JSON.stringify(data.questions));
+            sessionStorage.setItem('fileName',selectedFile.name)
+            router.push('/test');
+        }
+        catch (err) {
+            setIsLoading(false);
+            console.log(err);
         }
     };
 
@@ -64,12 +68,6 @@ export default function uploadFile() {
                 <div className="mb-8">
                     <div className="flex flex-col space-y-3 items-center justify-between mb-6 lg:flex-row">
                         <div className="flex items-center space-x-4">
-                            {/* <Link to={'/dashboard'}>
-                <button className="w-12 h-12 bg-white hover:bg-gray-50 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center border border-gray-200 hover:border-gray-300">
-                  <ArrowLeft className="w-5 h-5 text-gray-600" />
-                </button>
-              </Link> */}
-
                             <div className='text-center lg:text-left'>
                                 <h1 className="text-3xl font-bold bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text text-transparent">
                                     Create AI Test
