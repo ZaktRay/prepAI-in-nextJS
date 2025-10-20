@@ -1,9 +1,9 @@
 import Together from "together-ai";
 import { parseQuestions } from "./parseQuestions";
 
-export async function generateResponse(prompt){
+export async function generateResponse(prompt) {
     try {
-        
+
         const together = new Together();
         let response = {};
 
@@ -13,7 +13,7 @@ export async function generateResponse(prompt){
         for (let i = 0; i < totalChunks; i++) {
             const chunk = prompt.slice(i * CHUNK_SIZE, (i + 1) * CHUNK_SIZE);
 
-             response = await together.chat.completions.create({
+            response = await together.chat.completions.create({
                 messages: [
                     {
                         role: "system",
